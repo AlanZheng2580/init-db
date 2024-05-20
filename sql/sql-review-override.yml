@@ -11,7 +11,7 @@ ruleList:
       maxLength: 24
   - type: column.required
     level: DISABLED
-  - type: drop-naming-convention
+  - type: table.drop-naming-convention
     level: WARNING
   - type: statement.merge-alter-table
     level: WARNING
