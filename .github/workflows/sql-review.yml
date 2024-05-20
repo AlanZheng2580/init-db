@@ -15,3 +15,14 @@ jobs:
           override-file-path: ./sql/sql-review-override.yml
           database-type: MYSQL
           file-pattern: ^sql/.*\.sql$
+      - name: Build Docker image
+        run: |
+          DOCKER_BUILDKIT=0 docker build -t init-db .
+      - name: Start MySQL
+        run: |
+          set -e
+          docker run --rm -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql:5.7 
+          docker run --rm -d --name init-db \
+            -e INIT_DB_TYPE=mysql -e INIT_DB_HOST=172.17.0.1 -e INIT_DB_PORT=3306 \
+            -e INIT_DB_USER=root -e INIT_DB_PASSWORD=my-secret-pw \
+            init-db

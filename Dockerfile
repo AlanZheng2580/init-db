@@ -8,7 +8,7 @@ RUN apk add --no-cache mysql-client zip unzip wget bash curl gettext \
     && rm -rf /tmp/* \
     && rm -fr /var/cache/apk/*
 WORKDIR /usr/bin/app
-COPY --from=build /go/bin ./bin
+COPY --from=build /go/bin /bin
 COPY ./sql ./sql
 COPY entrypoint.sh .
 CMD ["bash","-c", "/usr/bin/app/entrypoint.sh"]
