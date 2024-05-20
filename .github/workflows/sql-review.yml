@@ -22,7 +22,10 @@ jobs:
         run: |
           set -e
           docker run --rm -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql:5.7 
-          docker run --rm -d --name init-db \
+      - name: DB Migrate
+        run: |
+          set -e
+          docker run --name init-db \
             -e INIT_DB_TYPE=mysql -e INIT_DB_HOST=172.17.0.1 -e INIT_DB_PORT=3306 \
             -e INIT_DB_USER=root -e INIT_DB_PASSWORD=my-secret-pw \
-            init-db
+            init-db   
