@@ -11,4 +11,5 @@ WORKDIR /usr/bin/app
 COPY --from=build /go/bin /bin
 COPY ./sql ./sql
 COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh ./sql/up.sh
 CMD ["bash","-c", "/usr/bin/app/entrypoint.sh"]
