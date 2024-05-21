@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd /usr/bin/app/sql && ./up.sh
+cd /usr/bin/app/sql && ./run.sh up

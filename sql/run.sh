@@ -11,6 +11,8 @@ DIR=$( cd "$( dirname "$0" )" && pwd )
 MYSQL_CMD="mysql -h ${INIT_DB_HOST} -P ${INIT_DB_PORT} --user=${INIT_DB_USER} --password=${INIT_DB_PASSWORD}"
 TIMEOUT=60
 
+pushd "$DIR"
+
 if ! command -v mysql &> /dev/null; then
     echo "Error: mysql command not found."
     exit 1
@@ -33,12 +35,14 @@ wait_for_db() {
     done
 }
 
+# usage: show_db_status $DIR $DB_NAME
 show_db_status() {
     local dir_path=$1
     local db_name=$2
     sql-migrate status --config="${dir_path}/${db_name}.yaml" --env env
 }
 
+# usage: generate_db_config $DIR $DB_NAME
 generate_db_config() {
     local dir_path=$1
     local db_name=$2
@@ -71,6 +75,7 @@ up() {
     done
 }
 
+# usage: down $DB_NAME $VERSION
 down() {
     local db_name=$1
     local db_version=$2
@@ -96,6 +101,10 @@ wait_for_db
 
 CMD_ERROR_MSG="Invalid command: $@. Please provide 'up' or 'down DB VERSION'."
 if [ "$1" == "up" ]; then
+    if [ $# -ne 1 ]; then
+        echo "$CMD_ERROR_MSG"
+        exit 1
+    fi
     up
 elif [ "$1" == "down" ]; then
     if [ $# -ne 3 ]; then
@@ -107,3 +116,5 @@ else
     echo "$CMD_ERROR_MSG"
     exit 1
 fi
+
+popd

@@ -11,19 +11,25 @@
  | INIT_DB_PASSWORD | my-secret-pw | Password form the DB|
 
 
-## Build Docker Image
+## Build a Docker Image
 
 ```
-$ docker build -t init-db .
+$ DOCKER_BUILDKIT=0 docker build -t init-db .
 ```
 
-## Execute DB Migarion Manually
+## Run a Docker Container Locally
+
+```
+$ docker run -it -e INIT_DB_TYPE=mysql -e INIT_DB_HOST=172.17.0.1 -e INIT_DB_PORT=3306 -e INIT_DB_USER=root -e INIT_DB_PASSWORD=my-secret-pw init-db
+```
+
+## Execute DB Migarions Manually
 
 ```
 $ cd sql && ./up.sh
 ```
 
-## Rollback DB to a Specific Version
+## Rollback the DB to a Specific Version
 
 ```
 $ cd sql
