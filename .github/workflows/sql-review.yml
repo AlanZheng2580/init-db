@@ -15,9 +15,21 @@ jobs:
           override-file-path: ./sql/sql-review-override.yml
           database-type: MYSQL
           file-pattern: ^sql/.*\.sql$
-      - name: sqlfluff
+      - uses: yu-iskw/action-sqlfluff@v3
+        id: lint-sql
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          sqlfluff_version: "2.0.7"
+          sqlfluff_command: "lint" # Or "lint"
+          config: "${{ github.workspace }}/.sqlfluff"
+          paths: '${{ github.workspace }}/sql/myfirstdb'
+      - name: 'Show outputs (Optional)'
+        shell: bash
         run: |
-          pip install sqlfluff==3.0.6 && python3 sql/lint_sql.py
+          echo '${{ steps.lint-sql.outputs.sqlfluff-results }}' | jq -r '.'
+          echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
+
       - name: Build Docker image
         run: |
           DOCKER_BUILDKIT=0 docker build -t init-db .
