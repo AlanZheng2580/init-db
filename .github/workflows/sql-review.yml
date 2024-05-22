@@ -15,9 +15,6 @@ jobs:
           override-file-path: ./sql/sql-review-override.yml
           database-type: MYSQL
           file-pattern: ^sql/.*\.sql$
-      - name: pip install sqlfluff
-        run: |
-          pip install sqlfluff==2.0.7
       - uses: yu-iskw/action-sqlfluff@v3
         id: lint-sql
         with:
@@ -25,7 +22,6 @@ jobs:
           reporter: github-pr-review
           sqlfluff_version: "2.0.7"
           sqlfluff_command: "lint" # Or "lint"
-          config: "${{ github.workspace }}/.sqlfluff"
           paths: '${{ github.workspace }}/sql/myfirstdb'
       - name: 'Show outputs (Optional)'
         shell: bash
