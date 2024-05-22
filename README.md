@@ -26,21 +26,17 @@ $ docker run -it -e INIT_DB_TYPE=mysql -e INIT_DB_HOST=172.17.0.1 -e INIT_DB_POR
 ## Execute DB Migarions Manually
 
 ```
-$ cd sql && ./up.sh
+$ cd sql && ./run.sh up
 ```
 
 ## Rollback the DB to a Specific Version
 
 ```
-$ cd sql
-
-# Replace 'myfirstdb' with actual name of the database
+# Replace 'myfirstdb' with the actual name of the database
 $ export DB_NAME=myfirstdb 
-
-$ envsubst < ./db_template.yaml > "$DB_NAME.yaml"
 
 # Replace 20240517001 with the actual version
 $ ROLLBACK_VERSION="20240517001"
 
-$ sql-migrate down --version "$ROLLBACK_VERSION" --config="$DB_NAME.yaml" --env env
+$ cd sql && ./run.sh down ${DB_NAME} ${ROLLBACK_VERSION}
 ```
