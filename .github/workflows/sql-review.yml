@@ -15,6 +15,9 @@ jobs:
           override-file-path: ./sql/sql-review-override.yml
           database-type: MYSQL
           file-pattern: ^sql/.*\.sql$
+      - name: sqlfluff
+        run: |
+          pip install sqlfluff==3.0.6 && python3 sql/lint_sql.py
       - name: Build Docker image
         run: |
           DOCKER_BUILDKIT=0 docker build -t init-db .
