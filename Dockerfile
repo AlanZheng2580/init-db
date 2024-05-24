@@ -12,5 +12,5 @@ COPY --from=build /go/bin /bin
 COPY ./sql ./sql
 COPY entrypoint.sh .
 RUN chmod +x ./entrypoint.sh ./sql/run.sh
-ENTRYPOINT [ "bash" ]
+ENTRYPOINT [ "/bin/bash", "-c" ]
 CMD ["/usr/bin/app/entrypoint.sh"]
