@@ -25,14 +25,14 @@ jobs:
       - name: DB Migrate Up
         run: |
           set -e
-          docker run --name init-db \
+          docker run --rm --name init-db \
             -e INIT_DB_TYPE=mysql -e INIT_DB_HOST=172.17.0.1 -e INIT_DB_PORT=3306 \
             -e INIT_DB_USER=root -e INIT_DB_PASSWORD=my-secret-pw \
             init-db   
       - name: DB Migrate Down
         run: |
           set -e
-          docker run --name init-db \
+          docker run --rm --name init-db \
             -e INIT_DB_TYPE=mysql -e INIT_DB_HOST=172.17.0.1 -e INIT_DB_PORT=3306 \
             -e INIT_DB_USER=root -e INIT_DB_PASSWORD=my-secret-pw \
             init-db -c "cd /usr/bin/app/sql && ./run.sh down myfirstdb 20240517001"
