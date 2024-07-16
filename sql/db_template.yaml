@@ -1,0 +1,4 @@
+env:
+  dialect: ${INIT_DB_TYPE}
+  datasource: ${INIT_DB_USER}:${INIT_DB_PASSWORD}@tcp(${INIT_DB_HOST}:$INIT_DB_PORT)/${DB_NAME}?parseTime=true
+  dir: ./${DB_NAME}
